@@ -4,11 +4,18 @@ this is a felixdim format extension for Quarto.
 
 ## installing
 
+this will install the format extension into you current project:
+
+```bash
+quarto add quaggaone/felixdim-format-quarto
+```
+
+alternatively, this will install the format extension and create an example qmd file that you can use as a starting place for your document.
+
 ```bash
 quarto use template quaggaone/felixdim-format-quarto
 ```
 
-this will install the format extension and create an example qmd file that you can use as a starting place for your document.
 
 ## using
 
