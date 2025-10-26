@@ -1,6 +1,7 @@
 /* $definitions.typ()$ */
 
-$typst-template.typ()$
+/* $typst-template.typ()$ */
+$fd-doc.typ()$
 
 $for(header-includes)$
 $header-includes$

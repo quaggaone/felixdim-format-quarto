@@ -2,12 +2,6 @@
 // the source code for a typst template) and a 'typst-show.typ' which calls the
 // template's function (forwarding Pandoc metadata values as required)
 
-$if(felixdim-format.template)$
-#import "_extensions/felixdim-format/felixdim-format-typst/lib/$felixdim-format.template$.typ": conf
-$else$
-#import "_extensions/felixdim-format/felixdim-format-typst/lib/fd-doc.typ": conf
-$endif$
-
 #show: doc => conf(
 $if(title)$
   title: [$title$],
