@@ -19,6 +19,8 @@ quarto use template quaggaone/felixdim-format-quarto
 
 ## using
 
+### requirements
+
 the following fonts need to be installed on the system:
 
 - IBM Plex Sans
@@ -26,6 +28,39 @@ the following fonts need to be installed on the system:
 - IBM Plex Serif
 - IBM Plex Mono
 - IBM Plex Math
+
+### options
+
+#### special metadata options (at YAML root):
+
+| key | type | description |
+|:--- |:---- |:----------- |
+| `title` | string | document metadata and on pages |
+| `author` | string | document metadata and on pages |
+| `description` | string | document metadata |
+| `date` | seperate year, month, date fields | document metadata and on pages |
+| `date.year` | number | document metadata and on pages |
+| `date.month` | number | document metadata and on pages |
+| `date.day` | number | document metadata and on pages |
+| `lang` | string of valid [ISO 639-1/2/3 language code](https://en.wikipedia.org/wiki/ISO_639) | influences text processing (eg. hyphenation, quotes) |
+| `region` | string of valid [ISO 3166-1 alpha-2 region code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) | influences text processing pipeline (eg. decimal and thousands delimiters) |
+
+example custom YAML metadata (frontmatter):
+
+```yaml
+title: "My beautiful Quarto file"
+author: zebra
+date:
+  year: 2019
+  month: 03
+  day: 23
+format:
+  felixdim-format-typst: default
+```
+
+#### Quarto format extension options (applied under the `felixdim-format-typst` key inside the YAML):
+
+there are currently no sepcial config options for this Quarto extension.
 
 ## note
 
