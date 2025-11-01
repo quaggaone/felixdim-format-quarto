@@ -2,6 +2,10 @@
 // the source code for a typst template) and a 'typst-show.typ' which calls the
 // template's function (forwarding Pandoc metadata values as required)
 
+// define pandoc specific variable
+#let horizontalrule = line(length: 100%)
+// this is pandoc’s translation of <hr> since typst doesn‘t have an equivalent as of now
+
 #show: doc => conf(
 $if(title)$
   title: [$title$],
