@@ -1,3 +1,11 @@
+v0.0.3
+---
+
+- UPDATE felixdim-format-typst dependency
+  - RENAME folder from `lib` to `templates`
+  - ADJUST margin
+
+
 v0.0.2
 ---
 
