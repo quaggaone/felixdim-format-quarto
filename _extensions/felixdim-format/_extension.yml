@@ -8,4 +8,4 @@ contributes:
       template: template.typ
       template-partials:
         - typst-show.typ
-        - felixdim-format-typst/templates/fd-doc.typ
+        - felixdim-format-typst/template/fd-doc.typ

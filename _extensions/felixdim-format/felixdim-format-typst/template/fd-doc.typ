@@ -194,13 +194,6 @@
     it
   ))
 
-  show std.title: set text(
-    size: 2.2 * font-size,
-    font: "IBM Plex Sans",
-    stretch: 75%,
-    weight: "bold"
-  )
-
   show heading: set text(
     stretch: 75%
   )
@@ -289,7 +282,12 @@
 
 
   // content
-  std.title()
+  text(
+    size: 2.2 * font-size,
+    font: "IBM Plex Sans",
+    stretch: 75%,
+    weight: "bold"
+  )[#context document.title]
 
   doc
 }
