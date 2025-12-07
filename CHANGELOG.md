@@ -1,3 +1,12 @@
+v0.0.6
+---
+
+- UPDATE felixdim-format-typst dependency to v0.3.1
+  - ADD pandoc lua filter (date-converter.lua) for parsing date strings to structured components
+  - UPDATE fd-doc.typ template to convert structured date dictionaries to typst datetime objects
+  - ENABLE use of simple date strings (YYYY-MM-DD or YYYY/MM/DD) in YAML front matter
+- ADD lua filter to extension configuration for automatic date parsing
+
 v0.0.5
 ---
 
