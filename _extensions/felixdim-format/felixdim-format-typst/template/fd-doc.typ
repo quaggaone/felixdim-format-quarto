@@ -38,7 +38,7 @@
     date: date
   )
   set page(
-    margin: 1.5cm,
+    margin: (left: 1.5cm, right: 1.5cm, top: 1.5cm, bottom: 1.5cm),
     number-align: right,
     footer-descent: 20%,
     footer: context [
@@ -161,6 +161,83 @@
         // row 2, column 2: author
         [#for (value) in document.author {value}],
       )
+    ],
+    background: context [
+      // page-wise TOC with lines in right margin
+      #let toc-color-inactive = luma(85%)
+      #let toc-color-active = luma(30%)
+      #let toc-line-spacing = 0.1cm
+      #let max-line-length = 0.9cm
+      #let line-decrement = 0.15cm
+
+      // get all headings in document
+      #let all-headings = query(selector(heading))
+      #let current-page = here().page()
+
+      // filter headings up to level 6
+      #let toc-headings = all-headings.filter(h => h.level <= 6)
+
+      // get first heading on current page
+      #let headings-on-page = toc-headings.filter(h => h.location().page() == current-page)
+      #let first-heading-on-page = if headings-on-page.len() > 0 { headings-on-page.first() } else { none }
+
+      // resolve page.margin from relative length to absolute value
+      // relative lengths have .length (absolute) and .ratio (percentage) components
+      // see: https://stackoverflow.com/questions/77690878/get-current-page-margins-in-typst#78185552
+      #let margin-right = if page.margin == auto {
+        calc.min(page.width, page.height) * 2.5 / 21
+      } else {
+        page.margin.length + page.margin.ratio * page.width
+      }
+
+      // resolve top margin the same way as right margin
+      #let margin-top = if page.margin == auto {
+        calc.min(page.width, page.height) * 2.5 / 21
+      } else {
+        page.margin.length + page.margin.ratio * page.height
+      }
+
+      // check if page starts with a heading by examining the position of the first heading
+      // if the first heading's y-position is at/near the top margin, page starts with heading
+      #let page-starts-with-heading = if first-heading-on-page != none {
+        let heading-pos = first-heading-on-page.location().position()
+        // check if heading is within a small threshold of the top margin (e.g., 0.5cm tolerance)
+        calc.abs(heading-pos.y - margin-top) < 0.5cm
+      } else {
+        false
+      }
+
+      // get previous heading and only mark it active if page doesn't start with a heading
+      #let headings-before = query(selector(heading).before(here()))
+      #let active-headings = if headings-before.len() > 0 and not page-starts-with-heading {
+        (headings-before.last(),)
+      } else {
+        ()
+      }
+
+      #place(
+        right + top,
+        dx: -1 * (margin-right - max-line-length) / 2,
+        dy: margin-top,
+        stack(
+          dir: ttb,
+          spacing: toc-line-spacing,
+          ..toc-headings.map(h => {
+            let line-length = max-line-length - (h.level - 1) * line-decrement
+
+            // heading is active if it's on current page OR is the previous heading (if page doesn't start with heading)
+            let is-on-page = h.location().page() == current-page
+            let is-active = is-on-page or active-headings.contains(h)
+
+            let line-color = if is-active { toc-color-active } else { toc-color-inactive }
+
+            line(
+              length: line-length,
+              stroke: 1pt + line-color
+            )
+          })
+        )
+      )
     ]
   )
 
@@ -253,7 +330,8 @@
   ): text
 
   show heading: set block(
-    below: 12pt
+    above: 1.5em,
+    below: 1.1 * font-size  // ~12pt spacing after headings (maintains previous value)
   )
 
   set par(
@@ -270,6 +348,36 @@
 
   show figure.caption: set align(left)
   show figure: set block(width: 100%)
+
+  // table settings
+  let table-stroke-outer = 1.25pt
+  let table-stroke-header = 0.75pt
+
+  set table(
+    inset: (x: 0.5em, y: 0.4em),
+    align: left,
+    stroke: (x, y) => (
+      top: if y == 0 { table-stroke-outer } else if y == 1 { table-stroke-header } else if y > 1 { 0pt },
+      bottom: table-stroke-outer,
+      x: none,
+    )
+  )
+
+  show table: it => {
+    set text(stretch: 75%)
+
+    show table.cell: cell => {
+      // semibold weight for header row (row 0) and first column (col 0)
+      if cell.y == 0 or cell.x == 0 {
+        set text(font: "IBM Plex Sans Cond SmBld", weight: "semibold")
+        cell
+      } else {
+        cell
+      }
+    }
+
+    it
+  }
 
   // outline settings
   show outline: set heading(
