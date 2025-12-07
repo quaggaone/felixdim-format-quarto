@@ -1,3 +1,14 @@
+v0.0.5
+---
+
+- UPDATE felixdim-format-typst dependency to v0.3.0
+  - ADD table styling with horizontal lines only (thick borders at top/bottom, thin line below header)
+  - ADD semibold formatting for table header row and first column
+  - ADD 75% text stretch (condensed) applied to all tables
+  - ADD page-wise visual TOC in right margin showing document structure with varying line lengths by heading level
+  - ADD active heading highlighting in margin TOC (dark lines for headings on current page and previous heading when its content continues onto page)
+  - UPDATE heading spacing to use relative units (1.5em above, 1.1× base font-size below) for consistent scaling
+
 v0.0.4
 ---
 
